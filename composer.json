@@ -1,0 +1,23 @@
+{
+    "name": "snu1743/yii2-flcms",
+    "version":"1.0.0",
+    "description": "cms",
+    "type": "yii2-extension",
+    "keywords": ["extension"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Anatoliy Smirnov",
+            "email": "anatoliysmirnov79@yandex.ru"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.0",
+        "php":">=7.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "fl\\flcms\\": ""
+        }
+    }
+}
