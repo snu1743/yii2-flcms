@@ -1,6 +1,6 @@
 <?php
 
-namespace fl\flcms;
+namespace fl\cms;
 
 /**
  * This is just an example.
