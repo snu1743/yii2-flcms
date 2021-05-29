@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\gii\console;
+namespace fl\cms\console;
 
 use Yii;
 use yii\base\InlineAction;
@@ -28,7 +28,7 @@ use yii\console\Controller;
 class GenerateController extends Controller
 {
     /**
-     * @var \yii\gii\Module
+     * @var \fl\cms\Module
      */
     public $module;
     /**
@@ -96,17 +96,22 @@ class GenerateController extends Controller
         $actions = [];
         foreach ($this->generators as $name => $generator) {
             $actions[$name] = [
-                'class' => 'yii\gii\console\GenerateAction',
+                'class' => 'fl\cms\console\GenerateAction',
                 'generator' => $generator,
             ];
         }
         return $actions;
     }
 
-    public function actionIndex()
+    public function actionInit($target)
     {
-        $this->run('/help', ['gii']);
+        echo $target;
     }
+
+//    public function actionIndex()
+//    {
+//        $this->run('/help', ['gii']);
+//    }
 
     /**
      * {@inheritdoc}
