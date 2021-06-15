@@ -3,7 +3,7 @@
 namespace fl\cms\entities\dynamic_properties;
 
 use Yii;
-use fl\cms\base\encryption\FLHashEncrypStatic as FLHashEncryp;
+use fl\cms\helpers\encryption\FLHashEncrypStatic as FLHashEncryp;
 use fl\cms\entities\base\BaseFlRecord;
 
 

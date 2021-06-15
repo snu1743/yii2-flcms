@@ -65,12 +65,14 @@ class Module extends \yii\base\Module implements BootstrapInterface
         Session::check();
         if ($app instanceof \yii\web\Application) {
             $app->getUrlManager()->addRules([
-//                ['class' => 'yii\web\UrlRule', 'pattern' => $this->id, 'route' => $this->id . '/default/index'],
-//                ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<id:\w+>', 'route' => $this->id . '/default/view'],
-//                ['class' => 'yii\web\UrlRule', 'pattern' => $this->id . '/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<controller>/<action>'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => 'fl/cms/get-config', 'route' => $this->id . '/entity/get-config'],
+                ['class' => 'yii\web\UrlRule', 'pattern' => 'fl/cms/action', 'route' => $this->id . '/entity/action'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => 'fl/cms/<controller:[\w\-]+>/<action:[\w\-]+>', 'route' => $this->id . '/<controller>/<action>'],
+                ['class' => 'yii\web\UrlRule', 'pattern' => 'login', 'route' => $this->id . '/security/login'],
+                ['class' => 'yii\web\UrlRule', 'pattern' => 'site/login', 'route' => $this->id . '/security/login'],
+                ['class' => 'yii\web\UrlRule', 'pattern' => 'fl/cms/login', 'route' => $this->id . '/security/login'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => 'fl/cms', 'route' => $this->id . '/cms'],
+                ['class' => 'yii\web\UrlRule', 'pattern' => '/', 'route' => $this->id . '/site/index']
             ], false);
         } elseif ($app instanceof \yii\console\Application) {
             $app->controllerMap[$this->id] = [

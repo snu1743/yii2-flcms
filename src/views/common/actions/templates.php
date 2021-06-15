@@ -1,3 +1,9 @@
+<?php
+
+use yii\helpers\BaseUrl;
+
+$homePageHttps = BaseUrl::home('http');
+?>
 <div class="fl-action-tmp d-none">
     <div class="modal fade fl-action-parent" id="fl-action-modal-default">
         <div class="modal-dialog">

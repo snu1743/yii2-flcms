@@ -11,22 +11,15 @@ class Main extends Action
 {
     public function run()
     {
-        $session = Yii::$app->session;
-        $request = $this->getRequest();
-        return $request;
-//        return $session->get('fl_cms');
+//        $session = Yii::$app->session;
+        return $this->perform($this->getRequest());
     }
 
     private function getRequest()
     {
-        return yii::$app->response->post();
+        return yii::$app->request->post();
     }
 
-    /**
-     * Perform
-     * @param array $request
-     * @return array
-     */
     public function perform(array $request, $asArray = true)
     {
 //        try{

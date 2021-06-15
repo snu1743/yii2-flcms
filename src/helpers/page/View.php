@@ -14,6 +14,11 @@ class View extends base\Main
      */
     public function process(): void
     {
+//        Включить!!!
+//        $this->prepareParams();
+//        if (!Access::check($this->params)) {
+//            throw new \Exception('Access denied');
+//        };
         $this->result = $this->getPageData();
     }
 

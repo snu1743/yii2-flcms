@@ -5,12 +5,15 @@ namespace fl\cms\repositories;
 
 use yii;
 use yii\base\Exception;
+use fl\cms\helpers\page\base\PageConstants;
 
 class CmsPageAccess
 {
-    public const ROLE_TYPE_ID_USER = 1;
-    public const ROLE_TYPE_ID_GROUP = 2;
-
+    /**
+     * Запрос на создание прав
+     * @param array $rules
+     * @throws yii\db\Exception
+     */
     public function setRules(array $rules)
     {
         $itemRule = '';
@@ -47,7 +50,7 @@ class CmsPageAccess
         $sqlParams = [
             ':CMS_PAGE_ID' => (int)$params['cms_page_id'],
             ':CMS_PAGE_ACTION_ID' => (int)$params['cms_page_action_id'],
-            ':ROLE_TYPE_USER' => self::ROLE_TYPE_ID_USER
+            ':ROLE_TYPE_USER' => PageConstants::ROLE_TYPE_ID_USER
         ];
         $roleIds = '0, ' . (int)$params['user_id'];
         $groupStatus = false;
@@ -61,7 +64,7 @@ class CmsPageAccess
         }
         $sqlGroup = '';
         if ($groupStatus) {
-            $sqlParams[':ROLE_TYPE_GROUP'] = self::ROLE_TYPE_ID_GROUP;
+            $sqlParams[':ROLE_TYPE_GROUP'] = PageConstants::ROLE_TYPE_ID_GROUP;
             $groupIdsList = implode(",", $params['group_ids']);;
             $sqlGroup = ",
                     (

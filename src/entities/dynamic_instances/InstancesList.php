@@ -2,8 +2,8 @@
 
 namespace fl\cms\entities\dynamic_instances;
 
-use fl\cms\base\encryption\FLHashEncrypStatic as FLHashEncryp;
 use Yii;
+use fl\cms\helpers\encryption\FLHashEncrypStatic as FLHashEncryp;
 use fl\cms\entities\base\BaseFlRecord;
 
 class InstancesList extends BaseFlRecord
@@ -22,7 +22,7 @@ class InstancesList extends BaseFlRecord
     {
         if(!isset($this->user_id)) {
             $session = Yii::$app->session;
-            $this->user_id = $session['person']['id'];
+            $this->user_id = $session['fl_cms']['user_id'];
         }
         $queryParams = $this->setQueryParams($this->user_id, $this->entity_class_id, $this->pagination_page, $this->pagination_row_count);
         $this->_result = $this->sendQuery($queryParams);

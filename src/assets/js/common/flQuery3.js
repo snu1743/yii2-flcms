@@ -133,7 +133,8 @@
                     FLBUFFER.form = null;
                     FLBUFFER.response = null;
                     FLBUFFER.form = form;
-                    if(typeof response === "string") {
+                    console.log(response);
+                    if(typeof response === "string" && response.length > 0) {
                         FLBUFFER.response = JSON.parse(response);
                     } else {
                         FLBUFFER.response = response;

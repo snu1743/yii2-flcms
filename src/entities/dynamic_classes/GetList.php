@@ -2,7 +2,7 @@
 
 namespace fl\cms\entities\dynamic_classes;
 
-use fl\cms\base\encryption\FLHashEncrypStatic as FLHashEncryp;
+use fl\cms\helpers\encryption\FLHashEncrypStatic as FLHashEncryp;
 use Yii;
 use fl\cms\entities\base\BaseFlRecord;
 

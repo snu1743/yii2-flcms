@@ -4,7 +4,7 @@
 namespace fl\cms\controllers;
 
 use Yii;
-use fl\cms\controllers\base\ApiController;
+use fl\cms\controllers\base\CmsController;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\NotFoundHttpException;
@@ -12,12 +12,14 @@ use yii\web\Response;
 use yii\helpers\Url;
 use fl\cms\helpers\page\Create;
 use fl\cms\helpers\page\View;
+use fl\cms\views\base\ViewParams;
+use fl\cms\helpers\url\UrlBase;
 
 /**
  * Class CmsController
  * @package fl\cms\controllers
  */
-class PageController extends ApiController
+class PageController extends CmsController
 {
     public function behaviors()
     {
@@ -28,11 +30,11 @@ class PageController extends ApiController
                 [
                     'actions' => ['create', 'index'],
                     'allow' => true,
-                    'roles' => ['?','@'],
+                    'roles' => ['?', '@'],
                 ]
             ],
         ];
-        $behaviors['verbs']             = [
+        $behaviors['verbs'] = [
             'class' => VerbFilter::className(),
             'actions' => [
                 'create' => ['post'],
@@ -50,10 +52,12 @@ class PageController extends ApiController
     public function actionView()
     {
         $params = [
-            'path' => trim(Url::to(), ' /')
+            'path' => UrlBase::getCurrentPath()
         ];
         $data = View::exec($params);
         $this->layout = '@vendor/snu1743/yii2-flcms/src/views/layouts/main';
-        return $this->render('@vendor/snu1743/yii2-flcms/src/views/cms_page',['data' => $data]);
+        $page = $this->render('@vendor/snu1743/yii2-flcms/src/views/cms_page', ViewParams::set($data));
+        $page = $this->initApps($page, $data);
+        return $page;
     }
 }
