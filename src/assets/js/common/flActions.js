@@ -285,6 +285,20 @@
             }
         },
         
+        
+        app: function(config, params) {
+            
+            switch (params[0]) {
+            case "aceEditor":
+                console.log(config)
+                console.log(params)
+                FLA.createAceEditor([], config);
+                break;
+            default:
+                console.error( "Нет таких значений" );
+            }
+        },
+        
         CreateElemWithForm: function(config) {
             console.log( config );
         },

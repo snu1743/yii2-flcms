@@ -28,24 +28,19 @@ class SecurityController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['signup'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
+                    ]
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['get', 'post'],
                 ],
             ],
         ];
@@ -108,9 +103,10 @@ class SecurityController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
+        if (!Yii::$app->user->isGuest) {
+            Yii::$app->user->logout();
+        }
+        return $this->redirect('login');
     }
 
     /**

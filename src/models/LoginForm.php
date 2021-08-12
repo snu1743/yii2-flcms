@@ -81,7 +81,7 @@ class LoginForm extends Model
      */
     private function sendQueryLogin(array $data): array
     {
-        $url = 'http://freelemur.com:55502/login';
+        $url = 'http://snu1743.freelemur.com:55502/login';
         $jsonBillingData = json_encode($data, JSON_UNESCAPED_UNICODE);
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");

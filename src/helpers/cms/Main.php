@@ -18,13 +18,18 @@ class Main
         $exception = Yii::$app->errorHandler->exception;
         if($exception && $exception->statusCode == 404){
             header("HTTP/1.0 200");
-            try {
+//            try {
                 $page = new PageController('app', 'fl-cms');
-                echo $page->actionView();
+                $request = yii::$app->request->get();
+                if(isset($request['cms-page-edit-mod']) && $request['cms-page-edit-mod'] > 0 && $request['cms-page-edit-mod'] <= 1){
+                    echo $page->actionEdit();
+                } else {
+                    echo $page->actionView();
+                }
                 exit;
-            } catch (\Throwable $e) {
-                echo $e->getMessage();
-            }
+//            } catch (\Throwable $e) {
+//                echo $e->getMessage();
+//            }
         }
     }
 }

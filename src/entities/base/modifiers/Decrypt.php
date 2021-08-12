@@ -7,7 +7,6 @@ use fl\cms\helpers\encryption\FLHashEncrypStatic AS FLHashEncryp;
 
 /**
  * Description of Encrypt
- *
  * @author snu5998
  */
 final class Decrypt extends ModifierBase implements ModifierInterface
@@ -29,7 +28,6 @@ final class Decrypt extends ModifierBase implements ModifierInterface
             }
         }
     }
-
 
     private function decrypt($property): string
     {

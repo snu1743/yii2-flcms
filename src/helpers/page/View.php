@@ -5,6 +5,9 @@ namespace fl\cms\helpers\page;
 
 use yii;
 use fl\cms\repositories\CmsView;
+use fl\cms\repositories\page\Get;
+use fl\cms\helpers\actions\ActionsConstants;
+use fl\cms\helpers\cms\CmsConstants;
 
 class View extends base\Main
 {
@@ -14,11 +17,11 @@ class View extends base\Main
      */
     public function process(): void
     {
-//        Включить!!!
-//        $this->prepareParams();
-//        if (!Access::check($this->params)) {
-//            throw new \Exception('Access denied');
-//        };
+        $this->params['cms_object_action_id'] = ActionsConstants::ACTION_PAGE_VIEW;
+        $this->prepareParams();
+        if (!Access::check($this->params)) {
+            throw new yii\web\ForbiddenHttpException('Access denied');
+        };
         $this->result = $this->getPageData();
     }
 

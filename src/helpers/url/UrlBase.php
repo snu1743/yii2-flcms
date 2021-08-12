@@ -7,12 +7,20 @@ class UrlBase
 {
     public static function getCurrentPath()
     {
-        $uriParts = explode('?', $_SERVER['REQUEST_URI'], 2);
+        $uriParts = explode('?', urldecode($_SERVER['REQUEST_URI']), 2);
         return trim($uriParts[0], '/');
     }
 
     public static function getHome()
     {
         return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
+    }
+
+    /**
+     * @return string
+     */
+    public static function getProjectDomainName(): string
+    {
+        return $_SERVER['SERVER_NAME'];
     }
 }

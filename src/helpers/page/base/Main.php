@@ -3,6 +3,11 @@
 
 namespace fl\cms\helpers\page\base;
 
+use fl\cms\helpers\actions\ActionsConstants;
+use fl\cms\helpers\cms\CmsConstants;
+use fl\cms\helpers\user\Session;
+use fl\cms\repositories\page\Get;
+use yii;
 use yii\base\Exception;
 
 /**
@@ -16,6 +21,7 @@ abstract class Main implements iPage
     public $params = [];
     public $status = [];
     public $result = [];
+    public $session;
 
     /**
      * @param array $params
@@ -27,10 +33,11 @@ abstract class Main implements iPage
         /* @var $obj iPage */
         $obj = new $class();
         $validator = new Validator($obj->getRules(), $params);
-        if(!$validator->exec()){
+        if (!$validator->exec()) {
             throw new Exception(json_encode($validator->getErrors(), JSON_UNESCAPED_UNICODE));
         };
         $obj->setParams($params);
+        $obj->session = yii::$app->session;
         $obj->process();
         return $obj->getResult();
     }
@@ -41,6 +48,35 @@ abstract class Main implements iPage
     public function setParams($params): void
     {
         $this->params = $params;
+    }
+
+
+
+    /**
+     * @param string $path
+     * @return int
+     * @throws yii\db\Exception
+     */
+    public function getPageId(string $path): int
+    {
+        $result = Get::getPageAsPath($path);
+        if (!is_integer($result['id'])) {
+            throw new \Exception('NotFound');
+        };
+        return $result['id'];
+    }
+
+    public function prepareParams()
+    {
+        if(!isset($this->params['cms_page_id']) || !is_integer($this->params['cms_page_id'])){
+            $this->params['cms_page_id'] = $this->getPageId($this->params['path']);
+        }
+        $this->params['cms_access_object_id'] = $this->params['cms_page_id'];
+        $this->params['cms_access_object_type_id'] = CmsConstants::OBJECT_TYPE_PAGE;
+        $this->params['user_id'] = Session::getUserId();
+        $this->params['group_ids'] = Session::getGroupIds();
+        $this->params['cms_project_id'] = Session::getProgectId();
+        $this->params['cms_tree_id'] = Session::getMainTreeId();
     }
 
     /**

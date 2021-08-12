@@ -38,22 +38,26 @@ abstract class BaseFlRecord extends Model
     {
         $this->loadProperties($actionName);
         $this->applyPropertiesModifiersIn();
-        $this->validate();
+        if($this->validate()) {
         $modelEvent = new ModelEvent();
-        $this->trigger($event['before'] ?? self::EVENT_BEFORE_PERFORM, $modelEvent);
-        $callback = ($callback) ? $callback : self::FN_INIT_MODEL;
-        $this->$callback();
-        $this->checkErrors();
-        $this->applyPropertiesModifiersOut();
-        $this->setEntityProperties();
-        $this->trigger($event['before'] ?? self::EVENT_AFTER_PERFORM, $modelEvent);
+            $this->trigger($event['before'] ?? self::EVENT_BEFORE_PERFORM, $modelEvent);
+            $callback = ($callback) ? $callback : self::FN_INIT_MODEL;
+            $this->$callback();
+            $this->checkErrors();
+            $this->applyPropertiesModifiersOut();
+            $this->setEntityProperties();
+            $this->trigger($event['before'] ?? self::EVENT_AFTER_PERFORM, $modelEvent);
+        } else {
+            $this->_response->setStatus($this->_response::FAILURE)
+                ->setErrors($this->getErrors());
+        }
         try{
             $this->_response->setResult($this->_properties, $this->_additional_data);
         }catch (\Throwable $e){
 //            print_r($this->_properties);
 //            print_r($this->_config);
 //            print_r($this->_attributes);
-            exit;
+//            exit;
         }
         return $this;
     }
@@ -105,13 +109,15 @@ abstract class BaseFlRecord extends Model
         }
     }
     
-    public function checkErrors() : void
+    public function checkErrors() : bool
     {
         if($this->hasErrors()) {
             $this->_response->setStatus($this->_response::FAILURE)
                             ->setErrors($this->getErrors());
+            return false;
         } else {
             $this->_response->setStatus($this->_response::SUCCESS);
+            return true;
         }
     }
 

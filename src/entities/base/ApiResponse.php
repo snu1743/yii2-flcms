@@ -17,7 +17,7 @@ class ApiResponse
         return $this;
     }
 
-    public function setResult(array $properties, ?array $additional_data = null)
+    public function setResult(?array $properties, ?array $additional_data = null)
     {
         $this->data['properties'] = $properties;
         $this->data['additional_data'] = $additional_data;

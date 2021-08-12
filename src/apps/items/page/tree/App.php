@@ -6,15 +6,16 @@ namespace fl\cms\apps\items\page\tree;
 use yii;
 use fl\cms\helpers\url\UrlBase;
 use fl\cms\repositories\CmsСhildPages;
+use fl\cms\helpers\user\Session;
 
 class App extends \fl\cms\apps\base\AppMain
 {
     private $templateItem = '<li class="nav-item">
-                            <a href="{{htef}}" class="nav-link">
-                                <i class="fas fa-circle nav-icon"></i>
-                                <p>{{title}}</p>
-                            </a>
-                        </li>';
+                                <a href="{{htef}}" class="nav-link">
+                                    <i class="fas fa-circle nav-icon"></i>
+                                    <p>{{name}}</p>
+                                </a>
+                            </li>';
 
     public function exec(): string
     {
@@ -22,17 +23,22 @@ class App extends \fl\cms\apps\base\AppMain
         $childs = $this->getChildPages();
         return $this->createTree($childs);
     }
+
+    /**
+     * @param array $childs
+     * @return string
+     */
     private function createTree(array $childs)
     {
-        $title = '';
+        $name = '';
         $path = '';
         $items = '';
         foreach ($childs as $item) {
-            $titleArr = explode('/',  $item['cms_page']['path']);
-            $title = array_pop($titleArr);
+            $nameArr = explode('/',  $item['cms_page']['name']);
+            $name = array_pop($nameArr);
             $path = UrlBase::getHome() . '/' . $item['cms_page']['path'];
             $itemsTmp = str_replace('{{htef}}', $path, $this->templateItem);
-            $itemsTmp = str_replace('{{title}}', $title, $itemsTmp);
+            $itemsTmp = str_replace('{{name}}', $name, $itemsTmp);
             $items .= $itemsTmp;
         }
         return $items;
@@ -41,8 +47,9 @@ class App extends \fl\cms\apps\base\AppMain
     private function getChildPages()
     {
         $params['cms_page_id'] = $this->pageData['cms_page']['id'];
-        $params['cms_page_id'] = $this->pageData['cms_page']['id'];
-        $params['user_id'] = 1;
+        $params['cms_project_id'] = Session::getProgectId();
+        $params['cms_main_tree_id'] = Session::getMainTreeId();
+        $params['user_id'] = Session::getUserId();
         return CmsСhildPages::get($params);
     }
 

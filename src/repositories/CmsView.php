@@ -4,36 +4,33 @@
 namespace fl\cms\repositories;
 
 use yii;
+use fl\cms\helpers\cms\CmsConstants;
 
 class CmsView
 {
     /**
      * @param array $params
      * @return array
+     * @throws yii\db\Exception
      */
     public static function getPageData(array $params): array
     {
-        if (isset($params['id'])) {
-            $sqlParams [':ID'] = $params['id'];
-            $where = "WHERE cp.id = :ID";
-        } elseif (isset($params['hash_id'])) {
-
-        } else {
-            if (strlen($params['path']) > 32) {
-                exit('strlen($params[\'path\']) > 32');
-            } else {
-                $sqlParams [':PATH'] = $params['path'];
-                $where = "WHERE cp.path = :PATH";
-            }
-        }
+        $sqlParams = [
+            ':ID' => (int)$params['cms_page_id']
+        ];
         $sql = "SELECT
                     cp.id AS cms_page__id,
+                    cp.parent_id AS cms_page__parent_id,
+                    cp.owner_id AS cms_page__owner_id,
                     cp.is_active  AS cms_page__is_active,
                     cp.path  AS cms_page__path,
+                    cp.name  AS cms_page__name,
+                    cp.title  AS cms_page__title,
+                    cp.cms_tree_id  AS cms_page__tree_id,
                     cpc.body AS cms_page_content__body
                 FROM cms_page cp
                 LEFT JOIN cms_page_content cpc on cp.id = cpc.cms_page_id
-                $where";
+                WHERE cp.id = :ID";
         $result = yii::$app->db->createCommand($sql, $sqlParams)->queryOne();
         $pageData = [];
         if(is_array($result)) {

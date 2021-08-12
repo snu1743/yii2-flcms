@@ -11,8 +11,12 @@ class Main extends Action
 {
     public function run()
     {
-//        $session = Yii::$app->session;
-        return $this->perform($this->getRequest());
+        return self::process($this->getRequest());
+    }
+
+    public static function execute(array $params, $asArray = true)
+    {
+        return self::process($params, $asArray);
     }
 
     private function getRequest()
@@ -20,7 +24,12 @@ class Main extends Action
         return yii::$app->request->post();
     }
 
-    public function perform(array $request, $asArray = true)
+    /**
+     * @param array $request
+     * @param bool $asArray
+     * @return array|mixed|yii\web\Response
+     */
+    private static function process(array $request, $asArray = true)
     {
 //        try{
             $configPath = __DIR__ . "/{$request['entity']}/config.php";
@@ -55,7 +64,7 @@ class Main extends Action
 //        } catch (\yii\web\UnauthorizedHttpException $e) {
 //            throw new $e();
 //        } catch (\Throwable $e) {
-////            $response = new ApiResponse();
+//            $response = new ApiResponse();
 ////            $response->setStatus($response::FAILURE);
 ////            Yii::$app->response->statusCode = 401;
 ////            http_response_code ( 401 );

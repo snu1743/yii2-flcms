@@ -4,7 +4,9 @@
 namespace fl\cms\repositories;
 
 use yii;
-use fl\cms\helpers\page\base\PageConstants;
+use fl\cms\helpers\page\PageConstants;
+use fl\cms\helpers\cms\CmsConstants;
+use fl\cms\helpers\actions\ActionsConstants;
 use yii\base\Exception;
 
 class CmsСhildPages
@@ -20,11 +22,17 @@ class CmsСhildPages
         if (!isset($params['cms_page_id'])) {
             throw new Exception('No required parameters CmsСhildPages::get');
         }
+        $projectId = 1;
         $sqlParams = [
             ':CMS_PAGE_ID' => (int)$params['cms_page_id'],
             ':USER_ID' => (int)$params['user_id'],
-            ':CMS_PAGE_ACTION_ID' => PageConstants::ACTION_VIEW_ID,
-            ':ROLE_TYPE_USER' => PageConstants::ROLE_TYPE_ID_USER
+            ':PROJECT_ID' => (int)$params['cms_project_id'],
+            ':ACTION_ID' => ActionsConstants::ACTION_PAGE_VIEW,
+            ':ROLE_TYPE_ID_USER' => CmsConstants::ROLE_TYPE_ID_USER,
+            ':ROLE_TYPE_ID_GROUP' => CmsConstants::ROLE_TYPE_ID_GROUP,
+            ':OBJECT_TYPE_ID' => CmsConstants::OBJECT_TYPE_PAGE,
+            ':IS_ACTIVE' => PageConstants::PAGE_STATUS_ACTIVE,
+            ':TREE_ID' => (int)$params['cms_main_tree_id'],
         ];
         $groupStatus = false;
         if (isset($params['group_ids']) && is_array($params['group_ids']) && count($params['group_ids']) > 0) {
@@ -36,40 +44,45 @@ class CmsСhildPages
             }
         }
         $sqlGroup = '0';
+        $groupIdsList = '';
         if ($groupStatus) {
             $sqlParams[':ROLE_TYPE_GROUP'] = PageConstants::ROLE_TYPE_ID_GROUP;
-            $groupIdsList = implode(",", $params['group_ids']);;
-            $sqlGroup = ",
-                    (
-                        SELECT
-                            count(*)
-                        FROM cms_page_access cpa
-                        WHERE cpa.cms_page_id = :CMS_PAGE_ID
-                        AND cpa.cms_page_action_id = :CMS_PAGE_ACTION_ID
-                        AND cpa.role_type_id = :ROLE_TYPE_GROUP
-                        AND cpa.role_id IN ($groupIdsList)
-                    ) as group";
+            $groupIdsList = ',' . implode(",", $params['group_ids']);;
         }
         $sql = "SELECT
-                    cp.id AS cms_page__id,
-                    cp.path  AS cms_page__path
+                       cp.id   AS cms_page__id,
+                       cp.path AS cms_page__path,
+                       cp.name AS cms_page__name
                 FROM cms_page cp
-                LEFT JOIN cms_page_access cpa on cp.id = cpa.cms_page_id
+                     LEFT JOIN cms_access_rule car on cp.id = car.cms_access_object_id
                 WHERE cp.parent_id = :CMS_PAGE_ID
-                AND cp.is_active = true
-                AND 0 != (
-                        SELECT
-                        (
-                            count(*) +
-                            $sqlGroup
-                        ) as result
-                        FROM cms_page_access cpa
-                        WHERE cpa.cms_page_id = cp.id
-                        AND cpa.cms_page_action_id = :CMS_PAGE_ACTION_ID
-                        AND cpa.role_type_id = :ROLE_TYPE_USER
-                        AND cpa.role_id = :USER_ID
-                    )
-                GROUP BY cp.id, cp.path
+                    AND cp.is_active = :IS_ACTIVE
+                    AND cp.cms_tree_id = :TREE_ID
+                    AND 0 != (
+                            SELECT
+                            (
+                                count(*) +
+                                (
+                                    SELECT
+                                        count(*)
+                                    FROM cms_access_rule car
+                                    WHERE car.cms_access_object_id = cp.id
+                                    AND car.cms_access_object_type_id = :OBJECT_TYPE_ID
+                                    AND car.cms_object_action_id = :ACTION_ID
+                                    AND car.role_type_id = :ROLE_TYPE_ID_GROUP
+                                    AND car.role_id IN (0$groupIdsList)
+                                    AND car.cms_project_id IN (0, :PROJECT_ID)
+                                )
+                            ) as result
+                            FROM cms_access_rule car
+                            WHERE car.cms_access_object_id = cp.id
+                            AND car.cms_access_object_type_id = :OBJECT_TYPE_ID
+                            AND car.cms_object_action_id = :ACTION_ID
+                            AND car.role_type_id = :ROLE_TYPE_ID_USER
+                            AND car.role_id = :USER_ID
+                            AND car.cms_project_id IN (0, :PROJECT_ID)
+                        )
+                GROUP BY cp.id, cp.path, cp.name
                 ORDER BY cp.path";
         $result = yii::$app->db->createCommand($sql, $sqlParams)->queryAll();
         $pageData = [];

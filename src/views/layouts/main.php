@@ -1,11 +1,9 @@
 <?php
-
 /* @var $this \yii\web\View */
 /* @var $content string */
 use yii\helpers\Html;
 use fl\cms\assets\FlMainAssets;
 use fl\cms\helpers\encryption\FLHashEncrypStatic as FLHashEncryp;
-//use yii\helpers\BaseUrl;
 use fl\cms\helpers\url\UrlBase;
 
 $homePageHttps = UrlBase::getHome();
@@ -20,7 +18,9 @@ FlMainAssets::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <fl-back-app
+            id="fl_cms_page_title"
+    />
     <?php $this->head() ?>
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -41,14 +41,33 @@ FlMainAssets::register($this);
                        data-string__entity="page"
                        data-string__action_name="create"
                        data-json_to_obj__action='["form",["modal"]]'
-                       data-string__form.values.e_parent_id="<?= FLHashEncryp::encrypt('fffff'); ?>"
+                       data-string__form.values.e_parent_cms_page="<?= Yii::$app->params['page']['e_cms_page'] ?>"
                     >
                         <i class="far fa-circle"> </i> Создать страницу
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a href="<?=Yii::$app->request->url . '?edit-mod=1'?>" target="_self" class="dropdown-item">
-                        <!-- Message Start -->
+                    <?php
+                        $url = Yii::$app->request->url;
+                        $url = explode('?', $url);
+                        $url = $url[0] . '?cms-page-edit-mod=1';
+                    ?>
+                    <a href="<?= $url ?>" target="_self" class="dropdown-item">
                         <i class="far fa-circle"> </i> Редактировать страницу
+                    </a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    Проекты
+                </a>
+                <div class="dropdown-menu  dropdown-menu-left">
+                    <a href="javascript:void(0);" class="fl-action cms-page-create dropdown-item"
+                       data-string__entity="projects"
+                       data-string__action_name="create"
+                       data-json_to_obj__action='["form",["modal"]]'
+                       data-string__form.values.e_parent_cms_page="<?= Yii::$app->params['page']['e_cms_page'] ?>"
+                    >
+                        <i class="far fa-circle"> </i> Создать проект
                     </a>
                 </div>
             </li>
@@ -144,7 +163,7 @@ FlMainAssets::register($this);
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Collapsed Sidebar</h1>
+                        <h1><?php print_r(Yii::$app->params['page']['data']['cms_page']['name'])  ?></h1>
                     </div>
                     <div class="col-sm-6">
                         <fl-back-app

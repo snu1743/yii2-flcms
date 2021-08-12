@@ -28,11 +28,16 @@ class PageController extends CmsController
             'class' => AccessControl::className(),
             'rules' => [
                 [
-                    'actions' => ['create', 'index'],
+                    'actions' => ['view'],
                     'allow' => true,
                     'roles' => ['?', '@'],
+                ],
+                [
+                    'actions' => ['edit'],
+                    'allow' => true,
+                    'roles' => ['@'],
                 ]
-            ],
+            ]
         ];
         $behaviors['verbs'] = [
             'class' => VerbFilter::className(),
@@ -56,8 +61,20 @@ class PageController extends CmsController
         ];
         $data = View::exec($params);
         $this->layout = '@vendor/snu1743/yii2-flcms/src/views/layouts/main';
+
         $page = $this->render('@vendor/snu1743/yii2-flcms/src/views/cms_page', ViewParams::set($data));
         $page = $this->initApps($page, $data);
+        return $page;
+    }
+
+    public function actionEdit()
+    {
+        $params = [
+            'path' => UrlBase::getCurrentPath()
+        ];
+        $data = View::exec($params);
+        $this->layout = '@vendor/snu1743/yii2-flcms/src/views/layouts/main';
+        $page = $this->render('@vendor/snu1743/yii2-flcms/src/views/cms_page_edit_mod_1', ViewParams::set($data));
         return $page;
     }
 }

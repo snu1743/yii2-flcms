@@ -1,25 +1,20 @@
 <?php
 
 return [
-    '_security' => [
-        'owner' => 'admin',
-        'actions' => [
-            'admin' => ['create', 'get', 'update', 'delete'],
-            'person' => ['create', 'get', 'update', 'delete']
-        ]
-    ],
+    '_security' => [],
     'create' => [
         'form' => [
             'fields' => [
                 'entity'=>['type'=>'hidden', 'value'=>'page'],
                 'action_name'=>['type'=>'hidden', 'value'=>'create'],
-                'title'=>['type'=>'text'],
+                'name'=>['type'=>'text'],
                 'alias'=>['type'=>'text'],
-                'e_parent_id'=>['type'=>'text']
+                'title'=>['type'=>'text'],
+                'e_parent_cms_page'=>['type'=>'hidden']
             ]
         ],
         'properties' => [
-            'parent_id'=> ['modifiers_in' => ['decrypt' => ['source' => 'e_parent_id']]],
+            'parent_cms_page'=> ['modifiers_in' => ['decrypt' => ['source' => 'e_parent_cms_page']]],
         ],
         'rules' => [],
         'action' => [
@@ -34,18 +29,18 @@ return [
         'form' => [
             'fields' => [
                 'entity'=>['type'=>'hidden', 'value'=>'page'],
-                'action_name'=>['type'=>'hidden', 'value'=>'create'],
-                'title'=>['type'=>'text'],
-                'alias'=>['type'=>'text'],
-                'e_parent_id'=>['type'=>'text']
+                'action_name'=>['type'=>'hidden', 'value'=>'edit'],
+//                'title'=>['type'=>'text'],
+//                'alias'=>['type'=>'text'],
+//                'e_parent_id'=>['type'=>'text']
             ]
         ],
         'properties' => [
-            'parent_id'=> ['modifiers_in' => ['decrypt' => ['source' => 'e_parent_id']]],
+//            'parent_id'=> ['modifiers_in' => ['decrypt' => ['source' => 'e_parent_id']]],
         ],
         'rules' => [],
         'action' => [
-            'form', ['send']
+            'app', ['aceEditor']
         ],
         'callback' => [
             'success'=> ['aceEditor'],
