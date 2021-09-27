@@ -8,11 +8,14 @@ use fl\cms\helpers\encryption\FLHashEncrypStatic as FLHashEncryp;
     <!--                        <textarea id="fl-page-editor-content" class="d-none">--><?//= $placeholders['content']; ?><!--</textarea>-->
     <?php
     $params = json_encode(
-        []
+        [
+            'cms_page_id' => Yii::$app->params['page']['data']['cms_page']['id'],
+            'cms_page_content_id' => Yii::$app->params['page']['data']['cms_page_layout_content_bind']['cms_page_content_id'],
+        ]
     );
     ?>
     <div class="fl-app auto-init"
-         data-string__entity="page"
+         data-string__entity="pages"
          data-string__action_name="edit"
          data-string__common.app="ace_edit"
          data-string__content=""

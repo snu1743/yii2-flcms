@@ -1,0 +1,13 @@
+<div class="fl-app auto-init"
+    data-string__entity="dynamic_classes"
+    data-string__action_name="get_list"
+    data-string__common.app="grid_edit_forms"
+    data-string__events.jsgrid_row_double_click="reloadEntityAs"
+>
+</div>
+<div class="fl-app reload-as"
+    data-string__entity="dynamic_classes"
+    data-string__action_name="get_config"
+    data-string__common.app="json_edit"
+>
+</div>

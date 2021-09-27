@@ -1,7 +1,7 @@
 <?php
 
 
-namespace fl\cms\entities\page;
+namespace fl\cms\entities\pages;
 
 use Yii;
 use fl\cms\entities\base\BaseFlRecord;
@@ -39,8 +39,6 @@ class Create extends BaseFlRecord
             'tree_id' => $this->parent_cms_page['tree_id'],
             'body' => "<h1><i>Новая страница</i> $this->path</h1>"
         ];
-//        print_r($params);
-//        exit();
         $this->_properties[] = PageCreate::exec($params);
     }
 

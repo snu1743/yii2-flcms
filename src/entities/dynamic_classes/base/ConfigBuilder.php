@@ -57,7 +57,7 @@ final class ConfigBuilder
             'entity' => 'dynamic_classes',
             'entity_class_id' => $this->entityClassId
         ];
-        $result = Main::perform($request);
+        $result = Main::execute($request);
         $this->config['_methods_list'] = $result['properties'];
     }
 
@@ -71,7 +71,7 @@ final class ConfigBuilder
             'entity' => 'dynamic_properties',
             'entity_class_id' => $this->entityClassId
         ];
-        $result = Main::perform($request);;
+        $result = Main::execute($request);;
         $this->config['_properties'] = $result['properties'];
         foreach ($this->config['_properties'] as $key => $property) {
             if(isset($property['name'])) {

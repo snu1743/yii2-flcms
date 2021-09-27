@@ -4,7 +4,7 @@
 namespace fl\cms\helpers\page;
 
 use yii;
-use fl\cms\repositories\CmsView;
+use fl\cms\repositories\page\Content;
 use fl\cms\repositories\page\Get;
 use fl\cms\helpers\actions\ActionsConstants;
 use fl\cms\helpers\cms\CmsConstants;
@@ -31,13 +31,13 @@ class View extends base\Main
     public function getRules(): array
     {
         return [
-            [['path'], 'required'],
-            ['path', 'string', 'min' => 1, 'max' => 2048]
+//            [['path'], 'required'],
+            ['path', 'string', 'min' => 0, 'max' => 2048]
         ];
     }
 
     private function getPageData()
     {
-        return CmsView::getPageData($this->params);
+        return Content::get($this->params);
     }
 }

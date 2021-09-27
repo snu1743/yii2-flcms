@@ -75,7 +75,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
 //                ['class' => 'yii\web\UrlRule', 'pattern' => 'site/logout', 'route' => $this->id . '/security/logout'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => 'fl/cms/login', 'route' => $this->id . '/security/login'],
                 ['class' => 'yii\web\UrlRule', 'pattern' => 'fl/cms', 'route' => $this->id . '/cms'],
-                ['class' => 'yii\web\UrlRule', 'pattern' => '/', 'route' => $this->id . '/site/index']
+                ['class' => 'yii\web\UrlRule', 'pattern' => '/', 'route' => $this->id . '/page']
             ], false);
         } elseif ($app instanceof \yii\console\Application) {
             $app->controllerMap[$this->id] = [

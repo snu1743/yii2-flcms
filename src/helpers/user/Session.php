@@ -5,6 +5,7 @@ namespace fl\cms\helpers\user;
 
 use yii;
 use fl\cms\repositories\project\CmsProjectDetail;
+use fl\cms\repositories\user\CmsUserRepository;
 use fl\cms\repositories\project\CmsProjectTrees;
 use fl\cms\helpers\encryption\FLHashEncrypStatic;
 use fl\cms\entities\security\InitSessionException;
@@ -76,6 +77,7 @@ class Session
         setcookie('e_token', $apiToken, 0, '/', '.' . $_SERVER['HTTP_HOST']);
         self::$flCmsParams['fl_cms']['user'] = self::$flCmsParams['ie_services_token']['public']['user'];
         self::$flCmsParams['fl_cms']['user_id'] = self::$flCmsParams['ie_services_token']['public']['user']['instance_id'];
+        self::$flCmsParams['fl_cms']['group_ids'] = CmsUserRepository::getCmsGroupUserBindIdList(['user_id' => self::$flCmsParams['fl_cms']['user_id']]);
     }
 
     /**
@@ -128,6 +130,10 @@ class Session
      */
     public static function getGroupIds(): array
     {
+        $session = yii::$app->session;
+        if(isset($session['fl_cms']['group_ids'])){
+            return $session['fl_cms']['group_ids'];
+        }
         return [];
     }
 

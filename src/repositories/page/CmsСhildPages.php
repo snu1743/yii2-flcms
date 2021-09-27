@@ -1,7 +1,7 @@
 <?php
 
 
-namespace fl\cms\repositories;
+namespace fl\cms\repositories\page;
 
 use yii;
 use fl\cms\helpers\page\PageConstants;
@@ -26,10 +26,7 @@ class CmsСhildPages
         $sqlParams = [
             ':CMS_PAGE_ID' => (int)$params['cms_page_id'],
             ':USER_ID' => (int)$params['user_id'],
-            ':PROJECT_ID' => (int)$params['cms_project_id'],
             ':ACTION_ID' => ActionsConstants::ACTION_PAGE_VIEW,
-            ':ROLE_TYPE_ID_USER' => CmsConstants::ROLE_TYPE_ID_USER,
-            ':ROLE_TYPE_ID_GROUP' => CmsConstants::ROLE_TYPE_ID_GROUP,
             ':OBJECT_TYPE_ID' => CmsConstants::OBJECT_TYPE_PAGE,
             ':IS_ACTIVE' => PageConstants::PAGE_STATUS_ACTIVE,
             ':TREE_ID' => (int)$params['cms_main_tree_id'],
@@ -46,7 +43,6 @@ class CmsСhildPages
         $sqlGroup = '0';
         $groupIdsList = '';
         if ($groupStatus) {
-            $sqlParams[':ROLE_TYPE_GROUP'] = PageConstants::ROLE_TYPE_ID_GROUP;
             $groupIdsList = ',' . implode(",", $params['group_ids']);;
         }
         $sql = "SELECT
@@ -61,26 +57,13 @@ class CmsСhildPages
                     AND 0 != (
                             SELECT
                             (
-                                count(*) +
-                                (
-                                    SELECT
-                                        count(*)
-                                    FROM cms_access_rule car
-                                    WHERE car.cms_access_object_id = cp.id
-                                    AND car.cms_access_object_type_id = :OBJECT_TYPE_ID
-                                    AND car.cms_object_action_id = :ACTION_ID
-                                    AND car.role_type_id = :ROLE_TYPE_ID_GROUP
-                                    AND car.role_id IN (0$groupIdsList)
-                                    AND car.cms_project_id IN (0, :PROJECT_ID)
-                                )
+                                count(*)
                             ) as result
                             FROM cms_access_rule car
                             WHERE car.cms_access_object_id = cp.id
                             AND car.cms_access_object_type_id = :OBJECT_TYPE_ID
                             AND car.cms_object_action_id = :ACTION_ID
-                            AND car.role_type_id = :ROLE_TYPE_ID_USER
-                            AND car.role_id = :USER_ID
-                            AND car.cms_project_id IN (0, :PROJECT_ID)
+                            AND (car.user_id = :USER_ID OR car.cms_group_id IN (0$groupIdsList))
                         )
                 GROUP BY cp.id, cp.path, cp.name
                 ORDER BY cp.path";

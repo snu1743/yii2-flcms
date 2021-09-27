@@ -15,7 +15,8 @@ class FlConfigAssets
             'jquery.contextMenu.min' => 'snu1743/yii2-flcms/src/assets/css/jquery/jquery.contextMenu.min.css',
             'jquery-ui.min' => 'snu1743/yii2-flcms/src/assets/css/jquery/jquery-ui.min.css',
 //            'jsoneditor.min.css' => 'snu1743/yii2-flcms/src/assets/ext/jsoneditor.min.css',
-            'fl-ace-main.css' => 'snu1743/yii2-flcms/src/assets/ext/ace/main.css'
+            'fl-ace-main.css' => 'snu1743/yii2-flcms/src/assets/ext/ace/main.css',
+            'jsoneditor.min.css' => '/assets-ext/node_modules/jsoneditor/dist/jsoneditor.min.css'
         ],
         'js' => [
             'jquery.min.js' => 'almasaeed2010/adminlte/plugins/jquery/jquery.min.js',
@@ -30,8 +31,10 @@ class FlConfigAssets
             'lodash.min' => 'snu1743/yii2-flcms/src/assets/js/lodash/lodash.min.js',
             'jquery.contextMenu.min' => 'snu1743/yii2-flcms/src/assets/js/jquery/jquery.contextMenu.min.js',
             'jquery-ui.min' => 'snu1743/yii2-flcms/src/assets/js/jquery/jquery-ui.min.js',
-            'src-min-noconflict_ace.js' => 'snu1743/yii2-flcms/src/assets/ext/ace/ace.js',
-            'jsoneditor.min.js' => 'snu1743/yii2-flcms/src/assets/ext/jsoneditor/jsoneditor.min.js'
+            'src-min-noconflict_ace.js' => '/assets-ext/ace-builds/src-min-noconflict/ace.js',
+            'jsoneditor.min.js' => '/assets-ext/node_modules/jsoneditor/dist/jsoneditor.min.js',
+//            'theme-monokai.js' => 'snu1743/yii2-flcms/src/assets/ext/ace/theme-monokai.js',
+//            'jsoneditor.min.js' => 'snu1743/yii2-flcms/src/assets/ext/jsoneditor/jsoneditor.min.js'
         ],
         'depends' => [],
     ];

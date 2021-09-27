@@ -27,6 +27,7 @@ class FlRulesAssets
                 'jquery-ui.min',
 
                 'src-min-noconflict_ace.js',
+//                'theme-monokai.js',
                 'jsoneditor.min.js',
 
                 'fl_query',

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace fl\cms\apps\items\page\breadcrumb;
+namespace fl\cms\apps\items\pages\breadcrumb;
 
 use yii\helpers\BaseUrl;
 

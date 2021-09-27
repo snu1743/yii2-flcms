@@ -6,7 +6,7 @@ namespace fl\cms\helpers\page\base;
 use fl\cms\helpers\actions\ActionsConstants;
 use fl\cms\helpers\cms\CmsConstants;
 use fl\cms\helpers\user\Session;
-use fl\cms\repositories\page\Get;
+use fl\cms\repositories\page\MainRepositories;
 use yii;
 use yii\base\Exception;
 
@@ -57,20 +57,40 @@ abstract class Main implements iPage
      * @return int
      * @throws yii\db\Exception
      */
-    public function getPageId(string $path): int
+    public function getPageId(string $path, int $cmsMainTreeId): int
     {
-        $result = Get::getPageAsPath($path);
+        $result = MainRepositories::getPageAsPath($path, $cmsMainTreeId);
         if (!is_integer($result['id'])) {
             throw new \Exception('NotFound');
         };
         return $result['id'];
     }
 
+    /**
+     * @throws Exception
+     * @throws yii\db\Exception
+     */
     public function prepareParams()
     {
+        $cmsMainTreeId = Session::getMainTreeId();
         if(!isset($this->params['cms_page_id']) || !is_integer($this->params['cms_page_id'])){
-            $this->params['cms_page_id'] = $this->getPageId($this->params['path']);
+            $this->params['cms_page_id'] = $this->getPageId($this->params['path'], $cmsMainTreeId);
         }
+        $this->params['cms_access_object_id'] = $this->params['cms_page_id'];
+        $this->params['cms_access_object_type_id'] = CmsConstants::OBJECT_TYPE_PAGE;
+        $this->params['user_id'] = Session::getUserId();
+        $this->params['group_ids'] = Session::getGroupIds();
+        $this->params['cms_project_id'] = Session::getProgectId();
+        $this->params['cms_tree_id'] = Session::getMainTreeId();
+    }
+
+    /**
+     * @throws Exception
+     * @throws yii\db\Exception
+     */
+    public function prepareParamsCreate()
+    {
+        $cmsMainTreeId = Session::getMainTreeId();
         $this->params['cms_access_object_id'] = $this->params['cms_page_id'];
         $this->params['cms_access_object_type_id'] = CmsConstants::OBJECT_TYPE_PAGE;
         $this->params['user_id'] = Session::getUserId();

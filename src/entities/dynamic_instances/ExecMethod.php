@@ -2,6 +2,7 @@
 
 namespace fl\cms\entities\dynamic_instances;
 
+use fl\cms\helpers\user\Session;
 use Yii;
 use fl\cms\entities\base\BaseFlRecord;
 
@@ -21,8 +22,7 @@ class ExecMethod extends BaseFlRecord
     public function initModel(): void
     {
         if(!isset($this->user_id)) {
-            $session = Yii::$app->session;
-            $this->user_id = $session['person']['id'];
+            $this->user_id = Session::getUserId();
         }
         $queryParams = $this->setQueryParams();
         $this->_result = $this->sendQuery($queryParams);

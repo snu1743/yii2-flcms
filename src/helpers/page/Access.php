@@ -17,9 +17,6 @@ class Access
         if (!isset($params['cms_page_id']) || !is_numeric($params['cms_page_id'])) {
             return false;
         }
-        if (!isset($params['cms_project_id']) || !is_numeric($params['cms_project_id'])) {
-            return false;
-        }
         if (!isset($params['cms_object_action_id']) || !is_numeric($params['cms_object_action_id'])) {
             return false;
         }

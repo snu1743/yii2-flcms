@@ -2,6 +2,7 @@
 
 namespace fl\cms\entities\dynamic_classes;
 
+use fl\cms\helpers\user\Session;
 use Yii;
 use fl\cms\entities\base\BaseFlRecord;
 
@@ -20,8 +21,7 @@ class Create extends BaseFlRecord
     public function initModel()
     {
         if(!isset($this->owner_id)) {
-            $session = Yii::$app->session;
-            $this->owner_id = $session['person']['id'];
+            $this->user_id = Session::getUserId();
         }
         $queryParams = $this->setQueryParams($this->owner_id, $this->name, $this->description);
         $this->_result = $this->sendQuery($queryParams);

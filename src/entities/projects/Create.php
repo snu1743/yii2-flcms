@@ -32,10 +32,9 @@ class Create extends BaseFlRecord
             'main_domain' => yii::$app->params['fl_cms']['domains']['main_domain'],
             'provider_prod' => yii::$app->params['fl_cms']['providers_settings']['prodaction'],
             'provider_dev' => yii::$app->params['fl_cms']['providers_settings']['develop'],
-            'alias_primary' => $this->alias_primary,
-            'alias_secondary' => $this->alias_secondary,
-            'project_domain_primary' => $this->alias_primary . '.' . yii::$app->params['fl_cms']['domains']['main_domain'],
-            'project_domain_secondary' => $this->alias_secondary . '.' . yii::$app->params['fl_cms']['domains']['main_domain']
+            'alias' => $this->alias,
+            'project_domain_primary' => $this->alias . '.' . yii::$app->params['fl_cms']['domains']['main_domain'],
+            'project_domain_secondary' => $this->alias . '-dev.' . yii::$app->params['fl_cms']['domains']['main_domain']
         ];
         $this->_properties[] = ProjectCreate::exec($params);
     }

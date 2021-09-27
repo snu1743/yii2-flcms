@@ -5,7 +5,7 @@ return [
     'create' => [
         'form' => [
             'fields' => [
-                'entity'=>['type'=>'hidden', 'value'=>'page'],
+                'entity'=>['type'=>'hidden', 'value'=>'pages'],
                 'action_name'=>['type'=>'hidden', 'value'=>'create'],
                 'name'=>['type'=>'text'],
                 'alias'=>['type'=>'text'],
@@ -22,6 +22,27 @@ return [
         ],
         'callback' => [
             'success'=> ['pageReload'],
+            'errors'=> 'alert'
+        ]
+    ],
+    'delete' => [
+        'form' => [
+            'fields' => [
+                'text'=>['type'=>'elem_text', 'text'=> 'Вы действительно хотите удалить страницу <b>{{name}}</b> ( <i>{{title}}</i> ) ?'],
+                'entity'=>['type'=>'hidden', 'value'=>'pages'],
+                'action_name'=>['type'=>'hidden', 'value'=>'delete'],
+                'e_cms_page'=>['type'=>'hidden']
+            ]
+        ],
+        'properties' => [
+            'cms_page'=> ['modifiers_in' => ['decrypt' => ['source' => 'e_cms_page']]],
+        ],
+        'rules' => [],
+        'action' => [
+            'form', ['send']
+        ],
+        'callback' => [
+            'success'=> ['reload'],
             'errors'=> 'alert'
         ]
     ],
@@ -51,14 +72,14 @@ return [
         'form' => [
             'fields' => [
                 'text'=>['type'=>'elem_text', 'text'=> 'Сохранить страницу?'],
-                'entity'=>['type'=>'text', 'value'=>'page'],
+                'entity'=>['type'=>'text', 'value'=>'pages'],
                 'action_name'=>['type'=>'text', 'value'=>'save'],
                 'content'=>['type'=>'text'],
                 'params'=>['type'=>'text'],
             ]
         ],
         'properties' => [
-            'page_params'=> ['modifiers_in' => ['decrypt' => ['source' => 'params']]],
+            'page_data'=> ['modifiers_in' => ['decrypt' => ['source' => 'params']]],
 //            'content'=> ['modifiers_in' => ['decrypt' => ['source' => 'content']]],
         ],
         'rules' => [],
@@ -83,7 +104,7 @@ return [
                         'name' => 'Save',
                         'icon' => 'fa-plus',
                         'action_data' => [
-                            'string__entity' => 'page',
+                            'string__entity' => 'pages',
                             'string__action_name' => 'save',
                             'json_to_obj__action' => '["form",["modal"]]'
                         ]

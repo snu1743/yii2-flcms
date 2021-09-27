@@ -19,7 +19,7 @@ FlMainAssets::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
     <fl-back-app
-            id="fl_cms_page_title"
+            id="fl_cms_pages_title"
     />
     <?php $this->head() ?>
 </head>
@@ -27,93 +27,9 @@ FlMainAssets::register($this);
 <?php $this->beginBody() ?>
 <!-- Site wrapper -->
 <div class="wrapper">
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    Страницы
-                </a>
-                <div class="dropdown-menu  dropdown-menu-left">
-                    <a href="javascript:void(0);" class="fl-action cms-page-create dropdown-item"
-                       data-string__entity="page"
-                       data-string__action_name="create"
-                       data-json_to_obj__action='["form",["modal"]]'
-                       data-string__form.values.e_parent_cms_page="<?= Yii::$app->params['page']['e_cms_page'] ?>"
-                    >
-                        <i class="far fa-circle"> </i> Создать страницу
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <?php
-                        $url = Yii::$app->request->url;
-                        $url = explode('?', $url);
-                        $url = $url[0] . '?cms-page-edit-mod=1';
-                    ?>
-                    <a href="<?= $url ?>" target="_self" class="dropdown-item">
-                        <i class="far fa-circle"> </i> Редактировать страницу
-                    </a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    Проекты
-                </a>
-                <div class="dropdown-menu  dropdown-menu-left">
-                    <a href="javascript:void(0);" class="fl-action cms-page-create dropdown-item"
-                       data-string__entity="projects"
-                       data-string__action_name="create"
-                       data-json_to_obj__action='["form",["modal"]]'
-                       data-string__form.values.e_parent_cms_page="<?= Yii::$app->params['page']['e_cms_page'] ?>"
-                    >
-                        <i class="far fa-circle"> </i> Создать проект
-                    </a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    Элементы
-                </a>
-                <div class="dropdown-menu  dropdown-menu-left">
-                    <a href="<?= $homePageHttps . 'entities/classes'; ?>" target="_self" class="dropdown-item">
-                        <!-- Message Start -->
-                        <i class="far fa-circle"> </i> Классы элементов
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="<?= $homePageHttps . 'entities/config'; ?>" target="_self" class="dropdown-item">
-                        <!-- Message Start -->
-                        <i class="far fa-circle"> </i> Конфигурации элементов
-                    </a>
-                    <div class="dropdown-divider"></div>
-
-                    <a href="<?= $homePageHttps . 'entities/instances'; ?>" target="_self" class="dropdown-item">
-                        <!-- Message Start -->
-                        <i class="far fa-circle"> </i> Экземпляры элементов
-                    </a>
-                </div>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-user"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <span class="dropdown-item dropdown-header"><?= $fullName ?? '' ?></span>
-                    <div class="dropdown-divider"></div>
-                    <a href="/logout" target="_self" class="dropdown-item">
-                        <i class="fas fa-door-open mr-2"></i> Logout
-                    </a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                    <i class="fas fa-th-large"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <fl-back-app
+            id="fl_cms_pages_menu_main"
+    />
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="<?= $homePageHttps ?>" class="brand-link">
@@ -146,16 +62,15 @@ FlMainAssets::register($this);
             </div>
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-header">MULTI LEVEL EXAMPLE</li>
+                    <li class="nav-header">Pages</li>
                     <fl-back-app
-                        id="fl_cms_page_tree"
+                        id="fl_cms_pages_tree"
                     />
                 </ul>
             </nav>
         </div>
         <!-- /.sidebar -->
     </aside>
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -167,7 +82,7 @@ FlMainAssets::register($this);
                     </div>
                     <div class="col-sm-6">
                         <fl-back-app
-                                id="fl_cms_page_breadcrumb"
+                                id="fl_cms_pages_breadcrumb"
                         />
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace fl\cms\apps\items\page\breadcrumb;
+namespace fl\cms\apps\items\pages\breadcrumb;
 
 use yii\helpers\BaseUrl;
 
@@ -12,6 +12,7 @@ class App extends \fl\cms\apps\base\AppMain
 
     public function exec(): string
     {
+        exit();
         $pathItems = explode('/', $this->pageData['cms_page']['path']);
         $nameItems = explode('/', $this->pageData['cms_page']['name']);
         return $this->createBreadcrumb($pathItems, $nameItems);

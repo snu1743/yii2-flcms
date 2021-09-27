@@ -1,11 +1,11 @@
 <?php
 
 
-namespace fl\cms\apps\items\page\tree;
+namespace fl\cms\apps\items\pages\tree;
 
 use yii;
 use fl\cms\helpers\url\UrlBase;
-use fl\cms\repositories\CmsСhildPages;
+use fl\cms\repositories\page\CmsСhildPages;
 use fl\cms\helpers\user\Session;
 
 class App extends \fl\cms\apps\base\AppMain

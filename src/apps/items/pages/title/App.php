@@ -1,7 +1,7 @@
 <?php
 
 
-namespace fl\cms\apps\items\page\title;
+namespace fl\cms\apps\items\pages\title;
 
 use yii;
 use fl\cms\helpers\url\UrlBase;

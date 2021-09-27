@@ -20,10 +20,11 @@ class CmsProjectDomainRepository
         $sqlParams = [
             ':CMS_PROJECT_ID' => (int)$params['cms_project_params']['id'],
             ':CMS_TREE_ID' => (int)$params['cms_tree_params']['id'],
-            ':NAME' => $domain
+            ':NAME' => $domain,
+            ':CREATE_USER_ID' => (int)$params['user_id']
         ];
-        $sql = "INSERT INTO cms_project_domain (cms_project_id, cms_tree_id, name)
-                VALUES (:CMS_PROJECT_ID, :CMS_TREE_ID, :NAME);";
+        $sql = "INSERT INTO cms_project_domain (cms_project_id, cms_tree_id, name, create_user_id)
+                VALUES (:CMS_PROJECT_ID, :CMS_TREE_ID, :NAME, :CREATE_USER_ID);";
         yii::$app->db->createCommand($sql, $sqlParams)->execute();
         $sql = "SELECT 
                     *

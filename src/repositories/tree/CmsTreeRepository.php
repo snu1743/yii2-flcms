@@ -18,10 +18,11 @@ class CmsTreeRepository
     public static function create(array $params): array
     {
         $sqlParams = [
-            ':CMS_PROJECT_OWNER_ID' => (int)$params['cms_project_params']['id']
+            ':CMS_PROJECT_OWNER_ID' => (int)$params['cms_project_params']['id'],
+            ':CREATE_USER_ID' => (int)$params['user_id']
         ];
-        $sql = "INSERT INTO cms_tree (cms_project_owner_id)
-                VALUES (:CMS_PROJECT_OWNER_ID);";
+        $sql = "INSERT INTO cms_tree (cms_project_owner_id, create_user_id)
+                VALUES (:CMS_PROJECT_OWNER_ID, :CREATE_USER_ID);";
         yii::$app->db->createCommand($sql, $sqlParams)->execute();
         $sql = "SELECT 
                     *

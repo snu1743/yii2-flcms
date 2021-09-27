@@ -244,7 +244,7 @@ abstract class BaseFlRecord extends Model
     public function sendQuery(array $data): array
     {
         $token = $this->getApiToken();
-        $url = 'http://freelemur.com:55502/api';
+        $url = 'http://snu1743.freelemur.com:55502/api';
         $jsonBillingData = json_encode($data, JSON_UNESCAPED_UNICODE);
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");

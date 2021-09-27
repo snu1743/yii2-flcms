@@ -28,7 +28,7 @@ class Config   extends BaseFlRecord
             'entity' => 'dynamic_classes',
             'entity_class_id' => $entityClassId
         ];
-        $result = Main::perform($request);
+        $result = Main::execute($request);
         return $result['properties'][0]['content'];
     }
 

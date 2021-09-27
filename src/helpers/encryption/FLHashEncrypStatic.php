@@ -72,6 +72,7 @@ class FLHashEncrypStatic
      */
     private function opensslDecrypt($ciphertext) 
     {
+//        return exec("curl -d '$ciphertext' -X POST http://localhost:8765/decript");
         $c = base64_decode($ciphertext);
         $ivlen = openssl_cipher_iv_length($cipher="AES-128-CBC");
         $iv = substr($c, 0, $ivlen);

@@ -14,7 +14,7 @@ use fl\cms\apps\base\AppsInitiator;
  * Class CmsController
  * @package fl\cms\controllers
  */
-class CmsController extends ActiveController
+class CmsController extends Controller
 {
     public $modelClass = 'common\models\User';
     protected $apiRequest;

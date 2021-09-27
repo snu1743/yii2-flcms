@@ -21,10 +21,11 @@ class CmsProjectRepository
             ':ACRONYM' => (string)$params['acronym'],
             ':SHORT_NAME' => (string)$params['short_name'],
             ':NAME' => (string)$params['name'],
-            ':CMS_PROJECT_STATUS_ID' => (int)$params['cms_project_status_id']
+            ':CMS_PROJECT_STATUS_ID' => (int)$params['cms_project_status_id'],
+            ':CREATE_USER_ID' => (int)$params['user_id']
         ];
-        $sql = "INSERT INTO cms_project (acronym, short_name, name, cms_project_status_id)
-                VALUES (:ACRONYM, :SHORT_NAME, :NAME, :CMS_PROJECT_STATUS_ID);";
+        $sql = "INSERT INTO cms_project (acronym, short_name, name, cms_project_status_id, create_user_id)
+                VALUES (:ACRONYM, :SHORT_NAME, :NAME, :CMS_PROJECT_STATUS_ID, :CREATE_USER_ID);";
         yii::$app->db->createCommand($sql, $sqlParams)->execute();
         $sql = "SELECT 
                     *
